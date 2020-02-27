@@ -1,0 +1,8 @@
+{
+  "name": "api-endpoints",
+  "version": "0.0.1",
+  "description": "API Endpoints for taking and compairing screenshots.",
+  "main": "index.js",
+  "author": "John Arkema",
+  "license": "MIT"
+}

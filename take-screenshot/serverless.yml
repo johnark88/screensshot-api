@@ -1,0 +1,26 @@
+service: take-screen-shot
+
+provider:
+  name: google
+  runtime: nodejs8
+  region: us-central1
+  project: screenshot-compare
+  memorySize: 1024
+  credentials: ../../random/screenshot-compare-72877eb34d60.json # path must be absolute
+
+plugins:
+  - serverless-google-cloudfunctions
+
+package:
+  exclude:
+    - node_modules/**
+    - .gitignore
+    - .git/**
+    - .gcloud/**
+    - .md
+
+functions:
+  helloWorld:
+    handler: takeScreenShot
+    events:
+      - http: path

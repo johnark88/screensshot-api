@@ -1,0 +1,16 @@
+{
+  "name": "take-screenshot",
+  "version": "0.1.0",
+  "description": "HTTP Endpoint for taking a screen shot. Uses puppeteer",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "serverless.com",
+  "license": "MIT",
+  "dependencies": {
+    "@google-cloud/storage": "^4.3.1",
+    "puppeteer": "^2.1.1",
+    "serverless-google-cloudfunctions": "^2.3.3"
+  }
+}
