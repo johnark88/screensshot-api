@@ -1,4 +1,4 @@
-service: watch-bucket-temp
+service: watch-bucket-storage-temp
 
 provider:
   name: google
@@ -13,13 +13,12 @@ plugins:
 
 package:
   exclude:
-    - node_modules/**
     - .gitignore
     - .git/**
     - .gcloud/**
 
 functions:
-  first:
+  watch:
     handler: watchCloudStorage
     events:
       - event:

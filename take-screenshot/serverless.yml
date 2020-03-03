@@ -1,4 +1,4 @@
-service: take-screen-shot
+service: take-screenshot
 
 provider:
   name: google
@@ -20,7 +20,7 @@ package:
     - .md
 
 functions:
-  helloWorld:
+  take:
     handler: takeScreenShot
     events:
       - http: path
