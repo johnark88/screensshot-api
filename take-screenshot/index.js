@@ -4,17 +4,6 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const os = require('os');
 
-//  get the current data / time and use it in the file names.
-//  this wil be off as its ran on GCP
-var date = new Date();
-var dateString =
-  ("00" + (date.getMonth() + 1)).slice(-2) + "." +
-  ("00" + date.getDate()).slice(-2) + "." +
-  date.getFullYear() + "_" +
-  ("00" + date.getHours()).slice(-2) + ":" +
-  ("00" + date.getMinutes()).slice(-2);
-  
-
 const openConnection = async () => {
   const browser = await puppeteer.launch({
     args: [
@@ -54,29 +43,38 @@ exports.takeScreenShot = async (req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Headers', 'Content-Type');
 
+  // Locates the temp directory for temporary storage
   const tempFolder = os.tmpdir();
 
   // get params from POST request
   const siteURL = req.body.siteURL;
   const name = req.body.name;
 
+  // Launch puppeteer
   let { browser, page } = await openConnection();
 
   try {
+    // Navigate to URL requested
     await page.goto(`${siteURL}`+'/', { waitUntil: 'networkidle0', timeout: 30000 });
 
-    let pathName = `${tempFolder}/${name}_${dateString}.png`;
+    // Path to temp folder
+    let pathName = `${tempFolder}/${name}.png`;
 
+    // Take the screenshot
     await page.screenshot({ path: pathName, fullPage: true });
 
+    // upload it to storage
     await uploadTempScreenShot(pathName);
 
+    // dump the temp folder - Clears up MEM for function to run efficently
     fs.unlinkSync(pathName);
 
-    res.status(200).send({success: true, file: pathName, siteName: name, fileName: `${name}_${dateString}.png`});
+    // send success
+    res.status(200).send({success: true, file: pathName, siteName: name, fileName: `${name}.png`});
   } catch (err) {
     res.status(500).send({success: false, msg: err.message});
   } finally {
+    // close puppeteer connection & browser
     await closeConnection(page, browser);
   }
 }; 
