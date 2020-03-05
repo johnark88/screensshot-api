@@ -8,10 +8,20 @@ const openConnection = async () => {
   const browser = await puppeteer.launch({
     args: [
       '--no-sandbox',
+      '--incognito',
     ],
   });
   const page = await browser.newPage();
-  await page.setViewport({ width: 1680, height: 1050 });
+
+  const dimensions = await page.evaluate(() => {
+    return {
+      width: document.documentElement.clientWidth,
+      height: document.documentElement.clientHeight,
+      deviceScaleFactor: window.devicePixelRatio
+    };
+  });
+
+  await page.setViewport({ width: dimensions.width, height: dimensions.height });
   return { browser, page };
 };  
 
@@ -55,13 +65,13 @@ exports.takeScreenShot = async (req, res) => {
 
   try {
     // Navigate to URL requested
-    await page.goto(`${siteURL}`+'/', { waitUntil: 'networkidle0', timeout: 30000 });
+    await page.goto(`${siteURL}`+'/', { waitUntil: 'networkidle0' });
 
     // Path to temp folder
     let pathName = `${tempFolder}/${name}.png`;
 
     // Take the screenshot
-    await page.screenshot({ path: pathName, fullPage: true });
+    await page.screenshot({ path: pathName, fullPage: true, omitBackground: true });
 
     // upload it to storage
     await uploadTempScreenShot(pathName);

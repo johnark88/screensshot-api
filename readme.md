@@ -13,6 +13,11 @@
   - <https://cloud.google.com/storage/docs/access-control/signed-urls>
 - Make Image's publicly viewable - try to avoid making whole bucket shared
 - Authorization/Securing all endpoints/functions
+account for duplicated name
+user hitting the button twice
+have progress wheel/bar
+naming convention
+multiple screen shots of same site with same name
 
 ## Take Screenshot Steps
 
